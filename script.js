@@ -1,4 +1,5 @@
- window.addEventListener('load',()=>{
+window.addEventListener('load',()=>{
+  
      let long;
      let lat;
      let temperatureDescription = document.querySelector('.temperature-description')
@@ -10,12 +11,14 @@
 
      if(navigator.geolocation){
          
-         navigator.geolocation.getCurrentPosition(position=>{
+        const Successcallback=(position)=>{
+
             long=position.coords.longitude;
             lat=position.coords.latitude;
             
             const APIkey='836881cfa7d610e726d05b08947dd459';
             const API=`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&appid=${APIkey}`;
+
             fetch(API)
             .then(response => response.json())
             .then(data => {
@@ -32,12 +35,12 @@
                 temperatureDescription.textContent=description;
                 locationTimezone.textContent=timezone;
                 
-                //set icon
+                //set icon image by fetching iconID
                 const iconID=data.weather[0].icon;
                 icon.src="icons/"+iconID+".png";
                 
-                //conversion formula 
-                let fahrenheit=(temperature) * (1.8) + 32;
+                //celcius to conversion formula 
+                let fahrenheit=((temperature) * (1.8) + 32).toFixed(2);
 
                 //Temperature conversion
                 temperaturesection.addEventListener('click',()=>{
@@ -51,7 +54,24 @@
                         temperatureDegree.textContent=fahrenheit;
                     }
                 });
+
             });
-         });
+            
+         };
+
+             const Errorcallback = (error)=>{
+             alert("Location access needed to run this app");
+
+             //reload the current document
+             location.reload();
+
+         };
+
+         navigator.geolocation.getCurrentPosition(Successcallback,Errorcallback);
      }
- });
+     else{
+
+         alert("Geolocation is not supported by this browser");
+
+     }
+});
