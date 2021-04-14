@@ -9,16 +9,30 @@
     <body>
 
         <div class="location">
-            <h1 class="location-timezone">TimeZone</h1>
+            <h1 class="location-timezone">City, Country</h1>
             <p><img id="icon" src="icons/01d.png"></p>
         </div>
 
+        <div class="date">
+            <h1 class='day'>Day</h1>
+            <h1 class='time'>hh:mm:ss</h1>
+        </div>
+
         <div class="temperature">
+
             <div class="temperature-degree">
-                <h2 class="temperature-degree-value">33</h2>
-                <span class="temperature-degree-type">*C</span>
+                <h1 class="temperature-degree-value">33</h1>
+                <span class="temperature-degree-C">&#8451;</span>
+                <span>|</span>
+                <span class="temperature-degree-F">&#8457;</span>
             </div>
-            <div class="temperature-description">cold</div>
+    
+            <div class="temperature-description">Sunny</div>
+        </div>
+
+        <div class="others">
+            <h1 class="wind">Wind:---</h1>
+            <h1 class="humidity">Humidity:---</h1>
         </div>
 
         <script src="script.js"></script>
