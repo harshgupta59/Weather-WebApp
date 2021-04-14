@@ -6,9 +6,18 @@ window.addEventListener('load',()=>{
      let temperatureDegree = document.querySelector('.temperature-degree-value');    
      let locationTimezone = document.querySelector('.location-timezone');
      let icon=document.querySelector('#icon');
-     let temperaturetype=document.querySelector('.temperature-degree span');
-     const temperaturesection=document.querySelector('.temperature-degree');
+     let temperaturetypec=document.querySelector('.temperature-degree-C');
+     let temperaturetypef=document.querySelector('.temperature-degree-F');
+     let temperaturesection=document.querySelector('.temperature-degree');
+     let time=document.querySelector('.time');
+     let day=document.querySelector('.day');
+     var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday","Saturday"];
+     let windDescrip=document.querySelector('.wind');
+     let humidityDescrip=document.querySelector('.humidity');
 
+     function addZero(num){
+         return num<10?`0${num}`:num;
+     }
      if(navigator.geolocation){
          
         const Successcallback=(position)=>{
@@ -28,13 +37,12 @@ window.addEventListener('load',()=>{
                 const description=data.weather[0].description;
                 country_name=data.sys.country;
                 const city_name=data.name;
-                const timezone=country_name+' / '+data.name;
 
                 //Set DOM elements from API
-                temperatureDegree.textContent=temperature;
-                temperatureDescription.textContent=description;
-                locationTimezone.textContent=timezone;
-                
+                temperatureDegree.innerHTML=temperature;
+                temperatureDescription.innerHTML=description;
+                locationTimezone.innerHTML=city_name+', '+country_name;
+                        
                 //set icon image by fetching iconID
                 const iconID=data.weather[0].icon;
                 icon.src="icons/"+iconID+".png";
@@ -43,18 +51,33 @@ window.addEventListener('load',()=>{
                 let fahrenheit=((temperature) * (1.8) + 32).toFixed(2);
 
                 //Temperature conversion
-                temperaturesection.addEventListener('click',()=>{
-                    console.log(temperaturetype);
-                    if(temperaturetype.textContent==="F"){
-                        temperaturetype.textContent="*C";
-                        temperatureDegree.textContent=temperature;
-                    }
-                    else{
-                        temperaturetype.textContent="F";
-                        temperatureDegree.textContent=fahrenheit;
-                    }
+                temperaturetypec.addEventListener('click',()=>{
+                    temperaturetypec.innerHTML="&#8451;";
+                    temperatureDegree.innerHTML=temperature;
+                });
+                temperaturetypef.addEventListener('click',()=>{
+                    temperaturetypef.innerHTML="&#8457;";
+                    temperatureDegree.innerHTML=fahrenheit;
                 });
 
+                
+                //Set current time
+                function currentDate(){
+                    let today=new Date();
+                    let hours=addZero(today.getHours());
+                    let minutes=addZero(today.getMinutes());
+                    let seconds=addZero(today.getSeconds());
+                    time.innerHTML=`${hours}:${minutes}:${seconds}`;
+                    day.innerHTML=days[today.getDay()];
+                }
+
+                setInterval(currentDate, 1000);
+                
+                //set wind,humidity
+                humidity=data.main.humidity;
+                windspeed=(data.wind.speed*3.6).toFixed(0);
+                windDescrip.innerHTML=`Wind: ${windspeed} km/hr`;
+                humidityDescrip.innerHTML=`Humidity: ${humidity}%`;
             });
             
          };
@@ -64,9 +87,7 @@ window.addEventListener('load',()=>{
 
              //reload the current document
              location.reload();
-
-         };
-
+            };
          navigator.geolocation.getCurrentPosition(Successcallback,Errorcallback);
      }
      else{
