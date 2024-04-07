@@ -1,4 +1,4 @@
-Live - https://harshgupta59.github.io/weatherApp.github.io/Weather.html <br />
+Live - https://harshgupta59.github.io/Weather-WebApp/Weather.html <br />
 
 ## ABOUT
 • Developed a WebApp for Weather tracking by fetching the data from OpenWeatherMap API based on GPS location and displaying it dynamically. <br />
